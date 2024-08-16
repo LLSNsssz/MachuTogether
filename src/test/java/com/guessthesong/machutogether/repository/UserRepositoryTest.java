@@ -4,15 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.guessthesong.machutogether.domain.user.User;
 import com.guessthesong.machutogether.repository.user.UserRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+
 import jakarta.transaction.Transactional;
+
 import java.time.Instant;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
@@ -46,7 +47,7 @@ class UserRepositoryTest {
     void whenFindByUsername_thenReturnUser() {
 
         // when
-        User found = userRepository.findById(user.getId()).orElse(null);
+        User found = userRepository.findByUsername(user.getUsername()).orElse(null);
 
         // then
         assertThat(found).isNotNull();
