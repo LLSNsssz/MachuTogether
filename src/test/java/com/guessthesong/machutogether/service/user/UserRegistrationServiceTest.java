@@ -10,10 +10,7 @@ import static org.mockito.Mockito.when;
 import com.guessthesong.machutogether.domain.user.User;
 import com.guessthesong.machutogether.domain.user.UserMapper;
 import com.guessthesong.machutogether.domain.user.UserRegistrationDto;
-import com.guessthesong.machutogether.exception.EmailAlreadyExistsException;
-import com.guessthesong.machutogether.exception.NicknameAlreadyExistsException;
-import com.guessthesong.machutogether.exception.PhoneNumberAlreadyExistsException;
-import com.guessthesong.machutogether.exception.UsernameAlreadyExistsException;
+import com.guessthesong.machutogether.exception.DuplicateUserInfoException;
 import com.guessthesong.machutogether.repository.user.UserRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +68,7 @@ class UserRegistrationServiceTest {
     void should_RegisterUser_when_UsernameAlreadyExists() {
         when(userRepository.existsByUsername("testUser")).thenReturn(true);
 
-        assertThrows(UsernameAlreadyExistsException.class, () ->
+        assertThrows(DuplicateUserInfoException.class, () ->
             userRegistrationService.registerUser(userRegistrationDto)
         );
     }
@@ -80,7 +77,7 @@ class UserRegistrationServiceTest {
     void registerUser_EmailAlreadyExists() {
         when(userRepository.existsByEmail("test@test.com")).thenReturn(true);
 
-        assertThrows(EmailAlreadyExistsException.class, () ->
+        assertThrows(DuplicateUserInfoException.class, () ->
             userRegistrationService.registerUser(userRegistrationDto)
         );
     }
@@ -89,7 +86,7 @@ class UserRegistrationServiceTest {
     void registerUser_NicknameAlreadyExists() {
         when(userRepository.existsByNickname("Test User")).thenReturn(true);
 
-        assertThrows(NicknameAlreadyExistsException.class, () ->
+        assertThrows(DuplicateUserInfoException.class, () ->
             userRegistrationService.registerUser(userRegistrationDto)
         );
     }
@@ -98,7 +95,7 @@ class UserRegistrationServiceTest {
     void registerUser_PhoneNumberAlreadyExists() {
         when(userRepository.existsByPhoneNumber("010-1111-1111")).thenReturn(true);
 
-        assertThrows(PhoneNumberAlreadyExistsException.class, () ->
+        assertThrows(DuplicateUserInfoException.class, () ->
             userRegistrationService.registerUser(userRegistrationDto)
         );
     }
