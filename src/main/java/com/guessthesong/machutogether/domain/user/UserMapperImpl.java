@@ -1,5 +1,8 @@
 package com.guessthesong.machutogether.domain.user;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserMapperImpl implements UserMapper {
 
     @Override
