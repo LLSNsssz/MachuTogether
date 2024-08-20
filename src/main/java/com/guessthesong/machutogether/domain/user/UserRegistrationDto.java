@@ -5,11 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class UserRegistrationDto {
 
     @Size(min = 6, max = 20, message = "사용자 이름은 6자에서 20자 사이여야 합니다.")
@@ -36,4 +35,14 @@ public class UserRegistrationDto {
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "올바른 전화번호 형식이 아닙니다. (예: 010-1234-5678)")
     @NotBlank(message = "전화번호는 필수 입력 항목입니다.")
     private String phoneNumber;
+
+    @Builder
+    public UserRegistrationDto(String username, String nickname, String email, String password,
+        String phoneNumber) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
 }

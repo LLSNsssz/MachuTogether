@@ -84,7 +84,7 @@ class UserLoginServiceTest {
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrongpassword", "encodedPassword")).thenReturn(false);
 
-        InvalidPasswordException exception = assertThrows(InvalidPasswordException.class,
+        assertThrows(InvalidPasswordException.class,
             () -> userLoginService.authenticate("testuser", "wrongpassword"));
     }
 }
