@@ -1,6 +1,8 @@
 package com.guessthesong.machutogether.controller.user;
 
 import com.guessthesong.machutogether.domain.user.UserLoginDto;
+import com.guessthesong.machutogether.exception.InvalidPasswordException;
+import com.guessthesong.machutogether.exception.UserNotFoundException;
 import com.guessthesong.machutogether.service.user.UserLoginService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserLoginController {
 
     private final UserLoginService userLoginService;
@@ -22,10 +24,15 @@ public class UserLoginController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody UserLoginDto userLoginDto) {
-        if (userLoginService.authenticate(userLoginDto.getUsername(), userLoginDto.getPassword())) {
-            return ResponseEntity.ok().body("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        try {
+            if (userLoginService.authenticate(userLoginDto.getUsername(), userLoginDto.getPassword())) {
+                return ResponseEntity.ok().body("Login successful");
+            }
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (InvalidPasswordException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
     }
 }
