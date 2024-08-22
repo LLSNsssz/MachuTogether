@@ -6,15 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import java.time.Instant;
+
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -41,4 +41,13 @@ public class ChatRoom {
     @Column(length = 255)
     private String lastMessagePreview;
 
+    @Builder
+    public ChatRoom(String name, Instant createdAt, Instant lastMessageAt, Integer maxParticipants,
+        String lastMessagePreview) {
+        this.name = name;
+        this.createdAt = createdAt;
+        this.lastMessageAt = lastMessageAt;
+        this.maxParticipants = maxParticipants;
+        this.lastMessagePreview = lastMessagePreview;
+    }
 }

@@ -1,5 +1,7 @@
 package com.guessthesong.machutogether.domain.chat;
 
+import com.guessthesong.machutogether.domain.user.User;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,15 +12,14 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import java.time.Instant;
+
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -43,7 +44,15 @@ public class Message {
     @JoinColumn(name = "chat_room_id", nullable = false)
     private ChatRoom chatRoom;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @Builder
+    public Message(String content, Instant sentAt, ChatRoom chatRoom, User user) {
+        this.content = content;
+        this.sentAt = sentAt;
+        this.chatRoom = chatRoom;
+        this.user = user;
+    }
 }
